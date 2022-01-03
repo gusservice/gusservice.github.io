@@ -133,12 +133,12 @@
                     </svg>
                 </div>
                 <div class="status-container-inner">
-                    <h4 class="title-h4 white status-title main-title">Сведения о перенесенном заболевании COVID-19</h4>
+                    <h4 class="title-h4 white status-title main-title">Сертификат COVID-19</h4>
                     <div class="status mt-12 text-plain small-text bold">
                         <span class="status-value hide not-found"></span>
-                        <span class="status-value cert-name">Переболел</span>
+                        <span class="status-value cert-name">Действителен</span>
                     </div>
-                    <h4 class="title-h4 white status-title mt-12"><span class="num-symbol">№</span> <span class="unrz">8781 0521 2603 5353</span></h4>
+                    <h4 class="title-h4 white status-title mt-12"><span class="num-symbol">№</span> <span id="cert_number" class="unrz">8781 0521 2603 5353</span></h4>
                 </div>
             </div>
 
@@ -146,7 +146,7 @@
 
             <div class="qr-number hide"></div>
             <div class="person-data person-data-dates mt-12">
-                <div class="mb-4 person-data-wrap align-items-center">
+                <!-- <div class="mb-4 person-data-wrap align-items-center">
                     <div class="person-date mr-12">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12.0625 7.1875C12.4077 7.1875 12.6875 6.90768 12.6875 6.5625C12.6875 6.21732 12.4077 5.9375 12.0625 5.9375C11.7173 5.9375 11.4375 6.21732 11.4375 6.5625C11.4375 6.90768 11.7173 7.1875 12.0625 7.1875Z" fill="#66727F"></path>
@@ -164,7 +164,7 @@
                     </div>
                     <div class="small-text gray mr-4">Дата выздоровления: </div>
                     <div class="small-text gray">24.09.2021</div>
-                </div>
+                </div> -->
 
                 <div class="mb-4 person-data-wrap align-items-center">
                     <div class="person-date mr-12">
@@ -183,13 +183,26 @@
                         </svg>
                     </div>
                     <div class="small-text gray mr-4">Действует до: </div>
-                    <div class="small-text gray">24.03.2022</div>
+                    <div class="small-text gray" id="cert_date"></div>
                 </div>
             </div>
             <div class="additional-info mt-20"></div>
 
 
-            <div class="person-data person-data-attrs mt-24"><div class="mb-4 person-data-wrap attr-wrap"><div class="small-text mb-4 mr-4 attr-title hide">ФИО: </div><div class="attrValue title-h6 bold text-center">Н******* Н***** А*********</div></div><div class="mb-4 person-data-wrap attr-wrap"><div class="small-text mb-4 mr-4 attr-title">Паспорт: </div><div class="attrValue small-text gray">47** ***377</div></div><div class="mb-4 person-data-wrap attr-wrap"><div class="small-text mb-4 mr-4 attr-title">Дата рождения: </div><div class="attrValue small-text gray">04.06.1991</div></div></div>
+            <div class="person-data person-data-attrs mt-24">
+                <div class="mb-4 person-data-wrap attr-wrap">
+                    <div class="small-text mb-4 mr-4 attr-title hide">ФИО: </div>
+                    <div class="attrValue title-h6 bold text-center" id="cert_fio"></div>
+                </div>
+                <div class="mb-4 person-data-wrap attr-wrap">
+                    <div class="small-text mb-4 mr-4 attr-title">Дата рождения: </div>
+                    <div class="attrValue small-text gray" id="cert_birthday"></div>
+                </div>
+                <div class="mb-4 person-data-wrap attr-wrap">
+                    <div class="small-text mb-4 mr-4 attr-title">Паспорт: </div>
+                    <div class="attrValue small-text gray" id="cert_pasport"></div>
+                </div>
+            </div>
             <div class="mt-24">
                 <a href="https://www.gosuslugi.ru/" class="button close">Закрыть</a>
             </div>
@@ -203,4 +216,62 @@
 
 <script>
     setTimeout(() => { document.getElementById('start-app-loader').remove() }, 1200);
+
+    var inputStr=window.location.href.split('/')[6];
+    console.log(inputStr)
+
+    var data=JSON.parse(decodeURIComponent(escape(atob(inputStr))));
+    console.log(data)
+
+    var el = document.getElementById('cert_number');
+    el.innerHTML  = data.Number;
+
+    el = document.getElementById('cert_date');
+    el.innerHTML  = data.Date;
+
+    el = document.getElementById('cert_fio');
+    el.innerHTML  = data.FIO;
+
+    el = document.getElementById('cert_birthday');
+    el.innerHTML  = data.Birthday;
+
+    el = document.getElementById('cert_pasport');
+    el.innerHTML  = data.Pasport;
+
+
+
+//     function decode_base64 (s)
+// {
+//     var e = {}, i, k, v = [], r = '', w = String.fromCharCode;
+//     var n = [[65, 91], [97, 123], [48, 58], [43, 44], [47, 48]];
+
+//     for (z in n)
+//     {
+//         for (i = n[z][0]; i < n[z][1]; i++)
+//         {
+//             v.push(w(i));
+//         }
+//     }
+//     for (i = 0; i < 64; i++)
+//     {
+//         e[v[i]] = i;
+//     }
+
+//     for (i = 0; i < s.length; i+=72)
+//     {
+//         var b = 0, c, x, l = 0, o = s.substring(i, i+72);
+//         for (x = 0; x < o.length; x++)
+//         {
+//             c = e[o.charAt(x)];
+//             b = (b << 6) + c;
+//             l += 6;
+//             while (l >= 8)
+//             {
+//                 r += w((b >>> (l -= 8)) % 256);
+//             }
+//          }
+//     }
+//     return r;
+// }
+
 </script>
